@@ -1,4 +1,8 @@
-### Hi there 👋
+### About me
+
+I'm a junior at The Software Institute of Nanjing University.
+
+I'm currently learning backend development and game programming. 🤔
 
 <!--
 **shuyuHU328/shuyuhu328** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
