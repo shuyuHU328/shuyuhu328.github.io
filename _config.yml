@@ -98,22 +98,22 @@ pagination_dir: page
 include:
 exclude:
 ignore:
-markdown_it_plus:
-  highlight: true
-  html: true
-  xhtmlOut: true
-  breaks: true
-  langPrefix:
-  linkify: true
-  typographer:
-  quotes: “”‘’
-  plugins:
-    - plugin:
-        name: markdown-it-katex
-        enable: true
-    - plugin:
-        name: markdown-it-mark
-        enable: false
+# markdown_it_plus:
+#   highlight: true
+#   html: true
+#   xhtmlOut: true
+#   breaks: true
+#   langPrefix:
+#   linkify: true
+#   typographer:
+#   quotes: “”‘’
+#   plugins:
+#     - plugin:
+#         name: markdown-it-katex
+#         enable: true
+#     - plugin:
+#         name: markdown-it-mark
+#         enable: false
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
@@ -123,5 +123,5 @@ theme: pure
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
       type: git
-      repository: https://github.com/shuyuHU328/shuyuhu328.git
+      repository: https://github.com/shuyuHU328/shuyuhu328.github.io.git
       branch: master
