@@ -64,8 +64,8 @@ sidebar: right
 widgets:
   - board  
   - category
-  - tag
-  - tagcloud
+  # - tag
+  # - tagcloud
   - archive
   - recent_posts
 
@@ -172,7 +172,7 @@ douban:
 # PV
 pv:
   busuanzi:
-    enable: false  # 不蒜子统计
+    enable: true  # 不蒜子统计
   leancloud:
     enable: false  # leancloud统计
     app_id: # leancloud <AppID>
@@ -203,8 +203,8 @@ profile:
   articleSelfBlock: true # 关闭文章下方的自我介绍
   avatar: images/avatar.jpg
   gravatar: # Gravatar email address, if you enable Gravatar, your avatar config will be overriden
-  author: Hugo
-  author_title: 黄金左脸/禅宗弟子/替身使者
+  author: Hu Shuyu
+  author_title: 黄金左脸/老背包客/替身使者
   author_description: 好吗？好的
   location: Nanjing, China
   follow: https://github.com/shuyuHU328
