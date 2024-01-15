@@ -19,7 +19,7 @@ mathjax: true
 
 - **NP**: class of problems verifiable in polynomial time. 
 
-​	Verifying a cycle is hamiltonian.
+  Verifying a cycle is hamiltonian.
 
 - **NP-complete**: problem is in NP and is as hard as any problem in NP.
 
@@ -35,7 +35,7 @@ Two requests $i$ and $j$ are compatible if they don't overlap, i.e., $f(i) \le s
 
 <img src="https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/intervalScheduling.5vmv6e5bjes0.png" alt="intervalScheduling" style="zoom:70%;" />
 
-**Goal**: Select a compatible subset of requests of maximum size.
+**Goal**: Select a compatible subset of requests of **maximum size**.
 
 ### Greedy Algorithm
 
@@ -60,4 +60,24 @@ $$
 证明可使用数学归纳法，从$k^*=1$的base case归纳，可以得到$k^*$一直是最优的序列，详细过程略。
 
 ## Weighted Interval Scheduling
+
+Each request $i$ has weight $w(i)$. Schedule subset of requests that are non-overlapping with **maximum weight**.
+
+我们不难发现，在此时贪心算法是失效的，因此我们选择动态规划解决。
+
+### Dynamic Programming
+
+**动态规划**（DP）是一种通过把原问题分解为相对简单的子问题的方式求解复杂问题的方法。
+
+我们这样定义Weighted Interval Scheduling的子问题：
+$$
+R^{x}=\{j \in R \mid s(j) \geq x\}
+$$
+其中，$R$是所有request的集合，如果我们令$x=f(i)$，那么$R^{x}$为集合$R$中起始时间晚于request $i$的request，这样我们需要解决的总子问题数$n=|R|$且只需要计算并记录一次。
+
+当我们选择request $i$作为序列的起始时，那么剩余的request集合为$R^{f(i)}$，不难注意到有些request与request $i$是协调的，但它仍然不会出现在$R^{f(i)}$中，即我们在按序遍历所有的子问题：
+$$
+\operatorname{opt}(R)=\max _{1 \leq i \leq n}\left(w(i)+\operatorname{opt}\left(R^{f(i)}\right)\right)
+$$
+此时，时间复杂度为$O(n^2)$，这是由于解决每个子问题的时间复杂度为$O(n)$.
 
