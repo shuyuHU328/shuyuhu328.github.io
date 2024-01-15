@@ -8,6 +8,7 @@ categories:
 - Algorithm
 - 6.046J 2015 Spring
 toc: true
+mathjax: true
 ---
 
 ## P & NP
