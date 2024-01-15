@@ -8,7 +8,7 @@ categories:
 - Algorithm
 - 6.046J 2015 Spring
 toc: true
-mathjax: true
+mathjax: false
 ---
 
 ## P & NP
@@ -29,7 +29,7 @@ mathjax: true
 
 Requests $1,2, . . . , n$, single resource
 
-$s(i)$ start time, $ f(i) $ finish time, $s(i) < f(i)$ (start time must be less than finish time for a request)
+$s(i)$ start time, $f(i)$ finish time, $s(i) < f(i)$ (start time must be less than finish time for a request)
 
 Two requests $i$ and $j$ are compatible if they don’t overlap, i.e., $f(i) ≤ s(j)$ or $f(j) ≤ s(i)$.
 

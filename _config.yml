@@ -113,8 +113,7 @@ markdown_it_plus:
         enable: true
     - plugin:
         name: markdown-it-mark
-        enable: false  
-
+        enable: false
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
