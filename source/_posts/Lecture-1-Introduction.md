@@ -11,6 +11,12 @@ categories:
 
 ## P & NP
 
+**P**: class of problems solvable in polynomial time. *O*($n^k$) for some constant *k*. (Shortest paths in a graph)
+
+**NP**: class of problems verifiable in polynomial time. (Verifying a cycle is hamiltonian)
+
+
+
 ## Interval Scheduling
 
 ## Weighted Interval Scheduling
