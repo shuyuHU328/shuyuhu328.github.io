@@ -201,7 +201,7 @@ pv:
   busuanzi:
     enable: false  # 不蒜子统计
   leancloud:
-    enable: true  # leancloud统计
+    enable: false  # leancloud统计
     app_id:  BPUTa0wS5wfHpeONqzrT2leu-gzGzoHsz # leancloud <AppID>
     app_key: eETuMqJ34HeLRLegieftYlUr # leancloud <AppKey>
         
