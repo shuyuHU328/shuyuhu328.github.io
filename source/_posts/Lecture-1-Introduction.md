@@ -7,6 +7,7 @@ tags:
 categories:
 - Algorithm
 - 6.046J 2015 Spring
+toc: true
 ---
 
 ## P & NP
@@ -31,7 +32,7 @@ $s(i)$ start time, $ f(i) $ finish time, $s(i) < f(i)$ (start time must be less 
 
 Two requests $i$ and $j$ are compatible if they don’t overlap, i.e., $f(i) ≤ s(j)$ or $f(j) ≤ s(i)$.
 
-<img src="Lecture-1-Introduction/intervalScheduling.png" alt="intervalScheduling" style="zoom:70%;" />
+<img src="https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/intervalScheduling.5vmv6e5bjes0.png" alt="intervalScheduling" style="zoom:70%;" />
 
 **Goal**: Select a compatible subset of requests of maximum size.
 
