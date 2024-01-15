@@ -35,7 +35,7 @@
       <link href="/Lecture-1-Introduction/"/>
       <url>/Lecture-1-Introduction/</url>
       
-        <content type="html"><![CDATA[<h2 id="P-NP"><a href="#P-NP" class="headerlink" title="P &amp; NP"></a>P &amp; NP</h2><h2 id="Interval-Scheduling"><a href="#Interval-Scheduling" class="headerlink" title="Interval Scheduling"></a>Interval Scheduling</h2><h2 id="Weighted-Interval-Scheduling"><a href="#Weighted-Interval-Scheduling" class="headerlink" title="Weighted Interval Scheduling"></a>Weighted Interval Scheduling</h2>]]></content>
+        <content type="html"><![CDATA[<h2 id="P-NP"><a href="#P-NP" class="headerlink" title="P &amp; NP"></a>P &amp; NP</h2><p><strong>P</strong>: class of problems solvable in polynomial time. <em>O</em>($n^k$) for some constant <em>k</em>. (Shortest paths in a graph)</p><p><strong>NP</strong>: class of problems verifiable in polynomial time. (Verifying a cycle is hamiltonian)</p><h2 id="Interval-Scheduling"><a href="#Interval-Scheduling" class="headerlink" title="Interval Scheduling"></a>Interval Scheduling</h2><h2 id="Weighted-Interval-Scheduling"><a href="#Weighted-Interval-Scheduling" class="headerlink" title="Weighted Interval Scheduling"></a>Weighted Interval Scheduling</h2>]]></content>
       
       
       <categories>
