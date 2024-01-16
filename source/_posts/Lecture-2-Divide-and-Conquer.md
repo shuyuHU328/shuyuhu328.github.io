@@ -11,7 +11,7 @@ katex: true
 cover: https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.1g58e0c69ycg.webp
 ---
 
-## Paradigm
+# Paradigm
 
 对于分而治之问题的时间复杂度计算：对于数据规模为$n$的问题，如果分解成规模为$\frac{n}{b}$的子问题，且$a\ge 1,b > 1$，那么有
 $$
@@ -20,7 +20,7 @@ $$
 
 我们会在下一节课通过*Master Theorithm*得到具体的时间复杂度
 
-## Convex Hull
+# Convex Hull
 
 在平面中给定$n$个点，假定任意两个点的x坐标与y坐标都不相同，且没有三个点出现在同一直线上。
 $$
@@ -34,7 +34,7 @@ CH(S)可以通过一个双向链表由边界上的点序列按顺时针顺序表
 
 <img src="https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.2jhmuiodvm4.webp" alt="dot sequence" style="zoom:67%;" />
 
-### Brute force for Convex Hull
+## Brute force for Convex Hull
 
 直接遍历每一条线段是否为CH(S)的一条边：
 
@@ -43,7 +43,7 @@ CH(S)可以通过一个双向链表由边界上的点序列按顺时针顺序表
 
 $O(n^2)$ edges, $O(n)$ tests ⇒ $O(n^3)$ complexity （*怎样优化？*）
 
-### Divide and Conquer Convex Hull
+## Divide and Conquer Convex Hull
 
 Sort points by x coord (once and for all, $O(nlogn)$)
 
@@ -53,17 +53,14 @@ For input set *S* of points:
 - Compute CH(*A*) and CH(*B*)
 - Combine CH’s of two halves (merge step)
 
-#### How to Merge?
+## How to Merge?
 
 ![merge example](https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.5w6r7hdiba80.webp)
 
-
-
-#### Finding Tangents
+### Finding Tangents
 
 ```pseudocode
-i=1
-j=1
+i=1, j=1
 while (y(i, j + 1) > y(i, j) or y(i − 1, j) > y(i, j))
 	if (y(i, j + 1) > y(i, j)) -> move right finger clockwise
 		j = j + 1(mod q)
@@ -72,6 +69,4 @@ while (y(i, j + 1) > y(i, j) or y(i − 1, j) > y(i, j))
 	return (a_i, b_j) as upper tangent
 ```
 
-
-
-## Median Finding
+# Median Finding

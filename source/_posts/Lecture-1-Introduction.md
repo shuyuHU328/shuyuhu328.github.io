@@ -11,7 +11,7 @@ katex: true
 cover: https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.1g58e0c69ycg.webp
 ---
 
-## P & NP
+# P & NP
 
 - **P**: class of problems solvable in polynomial time. $O(n^k)$ for some constant $k$. 
 
@@ -25,7 +25,7 @@ cover: https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.1
 
   如果NPC问题可在多项式时间内被解决，那么所有的NP问题都可以在多项式时间内被解决
 
-## Interval Scheduling / 区间调度问题
+# Interval Scheduling / 区间调度问题
 
 Requests $1,2, . . . , n$, single resource
 
@@ -37,7 +37,7 @@ Two requests $i$ and $j$ are compatible if they don't overlap, i.e., $f(i) \le s
 
 **Goal**: Select a compatible subset of requests of **maximum size**.
 
-### Greedy Algorithm
+## Greedy Algorithm
 
 贪心算法是一种在每一步选择中都采取在当前状态下最好或最优（即最有利）的选择，从而希望导致结果是最好或最优的算法。
 
@@ -45,7 +45,7 @@ Two requests $i$ and $j$ are compatible if they don't overlap, i.e., $f(i) \le s
 2. 拒绝request中冲突的部分
 3. 重复这一步骤直到所有的request被处理
 
-### Rules
+## Rules
 
 **Claim 1.** Greedy algorithm outputs a list of intervals
 $$
@@ -59,13 +59,13 @@ $$
 
 证明可使用数学归纳法，从$k^*=1$的base case归纳，可以得到$k^*$一直是最优的序列，详细过程略。
 
-## Weighted Interval Scheduling
+# Weighted Interval Scheduling
 
 Each request $i$ has weight $w(i)$. Schedule subset of requests that are non-overlapping with **maximum weight**.
 
 我们不难发现，在此时贪心算法是失效的，因此我们选择动态规划解决。
 
-### Dynamic Programming
+## Dynamic Programming
 
 **动态规划**（DP）是一种通过把原问题分解为相对简单的子问题的方式求解复杂问题的方法。
 

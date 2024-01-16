@@ -9,14 +9,14 @@ date: 2024-01-14 21:59:19
 <i class="fas fa-walking fa-3x fa-pull-left"></i>这里是Hu Shuyu的个人博客，我会整理并发布~~软院~~课程学习的相关笔记，以及一些兴趣使然的随机内容
 网站开放了评论功能，欢迎随时与我交流🤗
 
-### 如果你也感兴趣🤔
+## 如果你也感兴趣🤔
 
 - 后端开发
 - 软院前端速通
 - 游戏编程入门
 - 文明6制造核弹
 
-### 联系方式
+## 联系方式
 
 <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#74C0FC" d="M64 112c-8.8 0-16 7.2-16 16v22.1L220.5 291.7c20.7 17 50.4 17 71.1 0L464 150.1V128c0-8.8-7.2-16-16-16H64zM48 212.2V384c0 8.8 7.2 16 16 16H448c8.8 0 16-7.2 16-16V212.2L322 328.8c-38.4 31.5-93.7 31.5-132 0L48 212.2zM0 128C0 92.7 28.7 64 64 64H448c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128z"/></svg> Mail: [hushuyu@smail.nju.edu.cn](mailto:hushuyu@smail.nju.edu.cn)
 
