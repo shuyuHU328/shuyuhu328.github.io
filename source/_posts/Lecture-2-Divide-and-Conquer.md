@@ -66,11 +66,11 @@ For input set *S* of points:
 
 Assume $a_i$ maximizes x within CH(*A*) $(a_1, a_2,...,a_p)$. $b_1$ minimizes x within CH(*B*) $(b_1, b_2,...,b_q)$
 
-$L$ is the vertical line separating *A* and *B*. Define $y(i, j)$ as y-coordinate of intersection between *L* and segment $(a_i, b_j)$.
+$L$ is the vertical line separating *A* and *B*. Define $y(i, j)$ as y-coordinate of intersection between *L* and segment $(a_i, b_j)$
 
-**Claim**: $(a_i,b_j)$ is uppertangent iff it maximizes $y(i, j)$. If $y(i, j)$ is not maximum, there will be points on both sides of $(a_i, b_j)$ and it cannot be a tangent.
+**Claim**: $(a_i,b_j)$ is uppertangent iff it maximizes $y(i, j)$. If $y(i, j)$ is not maximum, there will be points on both sides of $(a_i, b_j)$ and it cannot be a tangent
 
-**Algorithm**: Obvious $O(n^2)$ algorithm looks at all $a_i, b_j$ pairs. $T(n)=2T(n/2)+ Θ(n^2) = Θ(n^2)$.
+**Algorithm**: Obvious $O(n^2)$ algorithm looks at all $a_i, b_j$ pairs. $T(n)=2T(n/2)+ Θ(n^2) = Θ(n^2)$
 
 ```pseudocode
 i=1, j=1
