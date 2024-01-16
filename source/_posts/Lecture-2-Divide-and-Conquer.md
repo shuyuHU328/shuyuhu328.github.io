@@ -9,7 +9,7 @@ categories:
 toc: true
 mathjax: true
 katex: false
-cover: https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.1g58e0c69ycg.webp
+cover: https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.66p91tli38s0.webp
 ---
 
 # Paradigm
@@ -19,7 +19,7 @@ $$
 T(n)=a T\left(\frac{n}{b}\right)+[work\ for\ merge]
 $$
 
-我们会在下一节课通过*Master Theorithm*得到具体的时间复杂度
+我们会在下一节课通过*Master Theorem*得到具体的时间复杂度
 
 # Convex Hull
 
@@ -58,10 +58,22 @@ For input set *S* of points:
 
 ![merge example](https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.5w6r7hdiba80.webp)
 
+- 找到upper tangent $(a_i,b_j)$，在这里$(a_4,b_2)$即为U.T.
+- 找到lower tangent $(a_k,b_m)$，在这里$(a_3,b_3)$即为L.T.
+- 首先连接$(a_i,b_j)$，按照顺时针遍历B的链表直到$b_m$，连接$(a_k,b_m)$，同样的，以顺时针遍历直到A的链表直到$a_i$，这样我们就得到了新的Covex Hull
+
 ### Finding Tangents
 
-```c
-int i=1, j=1;
+Assume $a_i$ maximizes x within CH(*A*) $(a_1, a_2,...,a_p)$. $b_1$ minimizes x within CH(*B*) $(b_1, b_2,...,b_q)$
+
+$L$ is the vertical line separating *A* and *B*. Define $y(i, j)$ as y-coordinate of intersection between *L* and segment $(a_i, b_j)$.
+
+**Claim**: $(a_i,b_j)$ is uppertangent iff it maximizes $y(i, j)$. If $y(i, j)$ is not maximum, there will be points on both sides of $(a_i, b_j)$ and it cannot be a tangent.
+
+**Algorithm**: Obvious $O(n^2)$ algorithm looks at all $a_i, b_j$ pairs. $T(n)=2T(n/2)+ Θ(n^2) = Θ(n^2)$.
+
+```pseudocode
+i=1, j=1
 while (y(i, j + 1) > y(i, j) or y(i − 1, j) > y(i, j))
 	if (y(i, j + 1) > y(i, j)) -> move right finger clockwise
 		j = j + 1(mod q)
@@ -71,3 +83,38 @@ while (y(i, j + 1) > y(i, j) or y(i − 1, j) > y(i, j))
 ```
 
 # Median Finding
+
+给定一个有n个数的集合，定义*rank(x)*为集合中小于等于x的数的数量，找到集合中第$\left\lfloor\frac{n+1}{2}\right\rfloor$大的数(lower median)与第$\left\lceil\frac{n+1}{2}\right\rceil$大的数(upper median). 通过排序来解决这样一个问题是显然的，但时间复杂度会达到$\Theta(n \log n)$，如何优化？
+
+## Select (S,i)
+
+```pseudocode
+Pick x ∈ S cleverly
+Compute k = rank(x)
+B = {y ∈ S|y < x}
+C = {y ∈ S|y > x}
+if k = i
+	return x
+else if k>i
+	return Select(B, i)
+else if k<i
+	return Select(C, i − k)
+```
+
+## Picking x Cleverly
+
+我们需要合理的选取x以防止极端情况出现：
+
+- 将集合S分成大小为5的列（$\left\lceil\frac{n}{5}\right\rceil$列）
+- 对每一列进行排序，时间复杂度为线性
+- 找到每一列中位数的中位数
+
+![visual](https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.4r66tofk6fw0.webp)
+
+### 有多少个数是保证大于x的？
+
+至少一半的$\left\lceil\frac{n}{5}\right\rceil$列都会保证至少有3个数是大于x的，除了x所在的列与少于5个数的列，因此至少有$3(\left\lceil\frac{n}{10}\right\rceil-2)$个数大于x，于是有：
+$$
+	T(n)=\left\{\begin{array}{ll}O(1), & \text { for } n \leq 140 \\ T\left(\left\lceil\frac{n}{5}\right\rceil\right)+T\left(\frac{7 n}{10}+6\right), \Theta(n), & \text { for } n>140\end{array}\right.
+$$
+*证明递归复杂度过程略*

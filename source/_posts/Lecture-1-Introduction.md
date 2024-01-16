@@ -8,7 +8,7 @@ categories:
 - '6.046J-2015Sping'
 toc: true
 mathjax: true
-cover: https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.1g58e0c69ycg.webp
+cover: https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.66p91tli38s0.webp
 ---
 
 # P & NP
