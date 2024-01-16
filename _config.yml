@@ -11,6 +11,15 @@ author: Hu Shuyu
 language: zn-CH
 timezone: 'Asia/Shanghai'
 
+kramed:
+  gfm: true
+  pedantic: false
+  sanitize: false
+  tables: true
+  breaks: true
+  smartLists: true
+  smartypants: true
+
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://shuyuhu328.github.io/

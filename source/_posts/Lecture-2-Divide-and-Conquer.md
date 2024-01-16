@@ -7,7 +7,8 @@ tags:
 categories:
 - '6.046J-2015Sping'
 toc: true
-katex: true
+mathjax: true
+katex: false
 cover: https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.1g58e0c69ycg.webp
 ---
 
@@ -59,8 +60,8 @@ For input set *S* of points:
 
 ### Finding Tangents
 
-```pseudocode
-i=1, j=1
+```c
+int i=1, j=1;
 while (y(i, j + 1) > y(i, j) or y(i − 1, j) > y(i, j))
 	if (y(i, j + 1) > y(i, j)) -> move right finger clockwise
 		j = j + 1(mod q)
