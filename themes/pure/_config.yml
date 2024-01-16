@@ -23,31 +23,13 @@ menu_icons:
   about: icon-cup-fill
 
 
-math:
-  engine: katex
-  katex:
-    css: https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css
-    js: https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js
-    config:
-      # KaTeX config
-      throwOnError: false
-      errorColor: "#cc0000"
-# markdown_it_plus:
-#   highlight: true
-#   html: true
-#   xhtmlOut: true
-#   breaks: true
-#   langPrefix:
-#   linkify: true
-#   typographer:
-#   quotes: “”‘’
-#   plugins:
-#     - plugin:
-#         name: markdown-it-katex
-#         enable: false
-#     - plugin:
-#         name: markdown-it-mark
-#         enable: false  
+
+katex:
+  enable: true
+  # true 表示每一页都加载katex.js
+  # false 需要时加载，须在使用的Markdown Front-matter 加上 katex: true
+  per_page: false
+  hide_scrollbar: true
 
 # rss
 rss: /atom.xml

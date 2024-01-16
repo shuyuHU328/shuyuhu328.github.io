@@ -12,6 +12,7 @@
     "version": "7.0.0"
   },
   "dependencies": {
+    "@upupming/hexo-renderer-markdown-it-plus": "^2.0.2",
     "hexo": "^7.0.0",
     "hexo-deployer-git": "^4.0.0",
     "hexo-generator-archive": "^2.0.0",
@@ -26,7 +27,6 @@
     "hexo-renderer-sass": "^0.5.0",
     "hexo-renderer-stylus": "^3.0.0",
     "hexo-server": "^3.0.0",
-    "hexo-submit-urls-to-search-engine": "^2.1.0",
     "hexo-theme-landscape": "^1.0.0",
     "hexo-wordcount": "^6.0.1",
     "markdown-it-katex": "^2.0.3"

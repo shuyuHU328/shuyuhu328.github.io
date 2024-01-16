@@ -5,9 +5,10 @@ tags:
 - Algorithm
 - MIT OCW
 categories:
-- '6-046J-2015Sping'
+- '6.046J-2015Sping'
 toc: true
-mathjax: true
+katex: true
+cover: https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.1g58e0c69ycg.webp
 ---
 
 ## P & NP
