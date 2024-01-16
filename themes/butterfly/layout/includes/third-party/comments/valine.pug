@@ -1,5 +1,5 @@
 - const { use, lazyload } = theme.comments
-- const { appId, appKey, avatar, serverURLs, visitor, option } = theme.valine
+- const { appId, appKey, avatar, serverURLs, visitor, placeholder , option} = theme.valine
 
 - let emojiMaps = '""'
 if site.data.valine
@@ -14,6 +14,7 @@ script.
         appKey: '#{appKey}',
         avatar: '#{avatar}',
         serverURLs: '#{serverURLs}',
+        placeholder: '#{placeholder}',
         emojiMaps: !{emojiMaps},
         path: window.location.pathname,
         visitor: #{visitor}
