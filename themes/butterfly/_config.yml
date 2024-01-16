@@ -52,7 +52,7 @@ avatar:
 disable_top_img: false
 
 # The banner image of home page
-index_img: https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/spacex-PIOgkhaF3WA-unsplash.4yoyre0q9rk0.webp
+index_img: https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.5c3xj8y5qv40.webp
 
 # If the banner of page not setting, it will show the top_img
 default_top_img: /img/top.png
