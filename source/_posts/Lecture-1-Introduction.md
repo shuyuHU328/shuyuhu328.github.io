@@ -5,8 +5,7 @@ tags:
 - Algorithm
 - MIT OCW
 categories:
-- Algorithm
-- 6.046J 2015 Spring
+- '6-046J-2015Sping'
 toc: true
 mathjax: true
 ---
