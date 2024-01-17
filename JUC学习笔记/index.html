@@ -1,0 +1,346 @@
+<!DOCTYPE html><html lang="zn-CH" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>JUC学习笔记 | Hugo's Blog</title><meta name="author" content="Hu Shuyu"><meta name="copyright" content="Hu Shuyu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="简介从JDK1.5开始，Java提供了java.util.concurrent包，在此包中增加了在并发编程中很常用的工具类，并在JDK21中加入了协程（Virtual Thread）。多线程并发作为Java中的重要内容，本文希望从JUC出发，整理相关内容，学习并发编程。 Java内存模型 &#x2F; Java Memory Model JMM规定所有变量都存储在主内存中，每条线程还有自己的工作内存。线程的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JUC学习笔记">
+<meta property="og:url" content="https://shuyuhu328.github.io/JUC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hugo&#39;s Blog">
+<meta property="og:description" content="简介从JDK1.5开始，Java提供了java.util.concurrent包，在此包中增加了在并发编程中很常用的工具类，并在JDK21中加入了协程（Virtual Thread）。多线程并发作为Java中的重要内容，本文希望从JUC出发，整理相关内容，学习并发编程。 Java内存模型 &#x2F; Java Memory Model JMM规定所有变量都存储在主内存中，每条线程还有自己的工作内存。线程的">
+<meta property="og:locale" content="zn_CH">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.4b02j7ej5xa0.png">
+<meta property="article:published_time" content="2024-01-16T12:27:00.000Z">
+<meta property="article:modified_time" content="2024-01-17T04:16:45.666Z">
+<meta property="article:author" content="Hu Shuyu">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="并发编程">
+<meta property="article:tag" content="JDK21">
+<meta property="article:tag" content="拾遗">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.4b02j7ej5xa0.png"><link rel="shortcut icon" href="/img/favicon2.png"><link rel="canonical" href="https://shuyuhu328.github.io/JUC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'JUC学习笔记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-01-17 12:16:45'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-blog"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.4b02j7ej5xa0.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Hugo's Blog"><img class="site-icon" src="/img/favicon2.png"/><span class="site-name">Hugo's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-blog"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">JUC学习笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-01-16T12:27:00.000Z" title="Created 2024-01-16 20:27:00">2024-01-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-01-17T04:16:45.666Z" title="Updated 2024-01-17 12:16:45">2024-01-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">Java基础知识</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">Word Count:</span><span class="word-count">2.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">Reading Time:</span><span>8mins</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="JUC学习笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>从JDK1.5开始，Java提供了<code>java.util.concurrent</code>包，在此包中增加了在并发编程中很常用的工具类，并在JDK21中加入了协程（Virtual Thread）。多线程并发作为Java中的重要内容，本文希望从JUC出发，整理相关内容，学习并发编程。</p>
+<h1 id="Java内存模型-Java-Memory-Model"><a href="#Java内存模型-Java-Memory-Model" class="headerlink" title="Java内存模型 / Java Memory Model"></a>Java内存模型 / Java Memory Model</h1><blockquote>
+<p>JMM规定所有变量都存储在主内存中，每条线程还有自己的工作内存。线程的工作内存中保存了被线程使用的变量的主内存副本，线程对变量的所有操作都必须在工作内存中进行，而不能直接读写主内存中的数据。不同线程之间也无法直接访问对方的工作内存中的变量，线程间变量值的传递需要通过主内存来完成。</p>
+</blockquote>
+<p>每条线程都有自己的工作空间，而共享变量存储在共享内存中。线程在运行时会首先将共享内存中的数据读取到自己的工作内存，即在线程的工作内存中复制了一个共享变量的副本，然后对其进行计算，计算完成后线程会将自己工作内存中的这个共享变量副本同步回主内存。线程、工作内存、与主内存的关系如下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.4z98ywzthdc0.png" alt=""></p>
+<h1 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h1><h2 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h2><p><code>volatile</code>变量有两大作用：</p>
+<ol>
+<li>保证可见性：指当一个线程修改了共享变量后，另外的线程能立即感知这个变量被修改。</li>
+<li>保证有序性：指程序按照代码的先后顺序执行。有时候为了优化性能，编译器会对字节码指令进行重排序，但是能保证重排序后的执行结果与重排序之前是一致的。</li>
+</ol>
+<h3 id="保证可见性"><a href="#保证可见性" class="headerlink" title="保证可见性"></a>保证可见性</h3><p>通过例子来说明：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">VolatileDemo</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">boolean</span> ready;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">MyThread</span> <span class="keyword">extends</span> <span class="title class_">Thread</span> &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;MyThread is running...&quot;</span>);</span><br><span class="line">            <span class="keyword">while</span> (!ready) ; <span class="comment">// 如果ready为false，则死循环</span></span><br><span class="line">            System.out.println(<span class="string">&quot;MyThread is end&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">MyThread</span>().start();</span><br><span class="line">        Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        ready = <span class="literal">true</span>;</span><br><span class="line">        System.out.println(<span class="string">&quot;ready = &quot;</span> + ready);</span><br><span class="line">        Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;main thread is end.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码中定义了一个boolean类型的成员变量<code>ready</code>,其默认值为false。在<code>MyThread</code>线程中判断如果<code>ready</code>为false时则进行死循环。接下来在<code>main</code>方法中开启<code>MyThread</code>线程，并在睡眠1s后将<code>ready</code>修改为true。正常情况下<code>ready</code>修改为true后<code>MyThread</code>线程中的死循环则会停止，并打印”MyThread is end”。但实际上的运行结果为：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">MyThread is running...</span><br><span class="line">ready = <span class="literal">true</span></span><br><span class="line">main thread is end.</span><br></pre></td></tr></table></figure>
+<p>可以看见当<code>ready</code>被修改为true后，<code>MyThread</code>线程依然未结束。通过这一例子也证实了<code>MyThread</code>线程中的<code>ready</code>副本并没有得到及时的更新。</p>
+<p>那么接下来我们将成员变量<code>ready</code>使用<code>volatile</code>关键字修饰：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">VolatileDemo</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> <span class="type">boolean</span> ready;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">MyThread</span> <span class="keyword">extends</span> <span class="title class_">Thread</span> &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;MyThread is running...&quot;</span>);</span><br><span class="line">            <span class="keyword">while</span> (!ready) ; <span class="comment">// 如果ready为false，则死循环</span></span><br><span class="line">            System.out.println(<span class="string">&quot;MyThread is end&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再运行看打印日志：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">MyThread is running...</span><br><span class="line">MyThread is end</span><br><span class="line">ready = <span class="literal">true</span></span><br><span class="line">main thread is end.</span><br></pre></td></tr></table></figure>
+<p>当在主线程中修改了<code>ready</code>为true后，<code>MyThread</code>线程立即感知了<code>ready</code>的变化，并结束了死循环，从这个例子中也可以看出volatile确实能有效的保证多个线程共享变量的可见性。</p>
+<h3 id="保证有序性"><a href="#保证有序性" class="headerlink" title="保证有序性"></a>保证有序性</h3><p><code>volatile</code>保证有序性在开发中有一个很常见的例子，即双重锁校验的<strong>单例模式</strong>下需要使用<code>volatile</code>关键字来禁止指令重排序。我们来看代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DoubleCheckLock</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> DoubleCheckLock instance;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">DoubleCheckLock</span><span class="params">()</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> DoubleCheckLock <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//第一次检测</span></span><br><span class="line">        <span class="keyword">if</span> (instance==<span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="comment">//同步</span></span><br><span class="line">            <span class="keyword">synchronized</span> (DoubleCheckLock.class)&#123;</span><br><span class="line">                <span class="keyword">if</span> (instance == <span class="literal">null</span>)&#123;</span><br><span class="line">                    <span class="comment">//多线程环境下可能会出现问题的地方</span></span><br><span class="line">                    instance = <span class="keyword">new</span> <span class="title class_">DoubleCheckLock</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果上述代码中没有给<code>instance</code>加上<code>volatile</code>关键字会怎么呢？</p>
+<p>首先我们应该清楚<code>instance = new DoubleCheckLock();</code>这一操作并不是一个原子操作，实例化对象的字节指令可以分为如下三步：</p>
+<ol>
+<li>分配对象内存：memory = allocate();</li>
+<li>初始化对象：instance(memory);</li>
+<li>instance指向刚分配的内存地址：instance = memory;</li>
+</ol>
+<p>而由于编译器的指令重排序，以上指令可能会出现以下顺序：</p>
+<ol>
+<li>分配对象内存：memory = allocate();</li>
+<li>instance指向刚分配的内存地址：instance = memory;</li>
+<li>初始化对象：instance(memory);</li>
+</ol>
+<p>以优化后的字节码指令来看双重锁校验的代码是否有问题呢？不难发现，如果线程A第一次调用单例方法，在该线程的时间片轮转结束后执行到了优化后的第二个指令，即<code>instance</code>被赋值，但是还未被分配初始化对象。此时，线程B抢到了CPU时间片，同时调用了<code>getInstance</code>方法，第一次校验就发现<code>instance</code>不为null，遂将其返回。在得到这个单例后调用单例的方法，此时必定出现空指针异常。因此，可见指令重排序在多线程并发的情况下是会出现问题的。此时，我们便可以通过<code>volatile</code>关键字来禁止编译器的优化，从而避免空指针的出现。</p>
+<h2 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h2><p><code>synchronized</code> 是 Java 中用于实现线程同步的关键字，它提供了一种独占锁的机制，用于确保多个线程之间的互斥访问共享资源。</p>
+<p><code>synchronized</code>可以用来修饰实例方法和静态方法，也可以用来修饰代码块，值的注意的是<code>synchronized</code>是一个<strong>对象锁</strong>，因此，无论使用哪一种方法，synchronized都需要有一个锁对象。</p>
+<h3 id="修饰实例方法"><a href="#修饰实例方法" class="headerlink" title="修饰实例方法"></a>修饰实例方法</h3><p><code>synchronized</code>修饰实例方法只需要在方法上加上<code>synchronized</code>关键字即可</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">()</span>&#123;</span><br><span class="line">       i++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时，<code>synchronized</code>加锁的对象就是这个方法<strong>所在实例的本身</strong>。</p>
+<h3 id="修饰静态方法"><a href="#修饰静态方法" class="headerlink" title="修饰静态方法"></a>修饰静态方法</h3><p><code>synchronized</code>修饰静态方法的使用与实例方法并无差别，在静态方法上加上<code>synchronized</code>关键字即可</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">()</span>&#123;</span><br><span class="line">       i++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时，<code>synchronized</code>加锁的对象为当前静态方法<strong>所在类的Class对象</strong>。</p>
+<h3 id="修饰代码块"><a href="#修饰代码块" class="headerlink" title="修饰代码块"></a>修饰代码块</h3><p>synchronized修饰代码块需要传入一个对象。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>很明显，此时synchronized加锁对象即为传入的这个对象实例。</p>
+<h3 id="synchronized锁优化"><a href="#synchronized锁优化" class="headerlink" title="synchronized锁优化"></a>synchronized锁优化</h3><p>为了解决<code>synchronized</code>效率低下，在JDK1.6中引入了偏向锁和轻量级锁来优化<code>synchronized</code>。此时的synchronized一共存在四个状态：无锁状态、偏向锁状态、轻量级锁状态和重量级锁状态。锁着锁竞争激烈程度，锁的状态会出现一个升级的过程，即可以从偏向锁升级到轻量级锁，再升级到重量级锁。锁升级的过程是单向不可逆的，即一旦升级为重量级锁就不会再出现降级的情况。</p>
+<h1 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h1><p><code>ReentrantLock</code>是一种显式锁，需要我们手动编写加锁和释放锁的代码，下面我们来看下<code>ReentrantLock</code>的使用方法。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReentrantLockDemo</span> &#123;</span><br><span class="line">    <span class="comment">// 实例化一个非公平锁，构造方法的参数为true表示公平锁，false为非公平锁。</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">ReentrantLock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ReentrantLock</span>(<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> i;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testLock</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 拿锁，如果拿不到会一直等待</span></span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 再次尝试拿锁(可重入)，拿锁最多等待100毫秒</span></span><br><span class="line">            <span class="keyword">if</span> (lock.tryLock(<span class="number">100</span>, TimeUnit.MILLISECONDS))</span><br><span class="line">                i++;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">// 释放锁</span></span><br><span class="line">            lock.unlock(); </span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码中<code>lock.lock()</code>会进行拿锁操作，如果拿不到锁则会一直等待。如果拿到锁之后则会执行try代码块中的代码。接下来在try代码块中又通过<code>tryLock(100, TimeUnit.MILLISECONDS)</code>方法尝试再次拿锁，此时，拿锁最多会等待100毫秒，如果在100毫秒内能获得锁，则<code>tryLock</code>方法返回true，拿锁成功，执行<code>i++</code>操作，如果返回false，获取锁失败，<code>i++</code>不会被执行。（因为第一次线程已经拿到锁了，由于<code>ReentrantLock</code>是可重入，因此，第二次必定能拿到锁。另外，<strong>要注意被<code>ReentrantLock</code>加锁区域必须用try代码块包裹，且释放锁需要在finally中来避免死锁</strong>。执行几次加锁，就需要几次释放锁。</p>
+<h2 id="公平锁与非公平锁"><a href="#公平锁与非公平锁" class="headerlink" title="公平锁与非公平锁"></a>公平锁与非公平锁</h2><blockquote>
+<p><strong>公平锁</strong>是指多个线程按照申请锁的顺序来获取锁，线程直接进入同步队列中排队，队列中最先到的线程先获得锁。<strong>非公平锁</strong>是多个线程加锁时每个线程都会先去尝试获取锁，如果刚好获取到锁，那么线程无需等待，直接执行，如果获取不到锁才会被加入同步队列的队尾等待执行。</p>
+</blockquote>
+<p>公平锁和非公平锁各有优缺点，适用于不同的场景：</p>
+<ol>
+<li>公平锁的优点在于各个线程平等，每个线程等待一段时间后，都有执行的机会；而它的缺点相较于非公平锁整体执行速度更慢，吞吐量更低。同步队列中除第一个线程以外的所有线程都会阻塞，CPU唤醒阻塞线程的开销比非公平锁大。</li>
+<li>非公平锁的优点是可以减少唤起线程的开销，整体的吞吐效率高，因为线程有几率不阻塞直接获得锁，CPU不必唤醒所有线程；它的缺点也比较明显，即队列中等待的线程可能一直或者长时间获取不到锁。</li>
+</ol>
+<h2 id="可重入锁与非可重入锁"><a href="#可重入锁与非可重入锁" class="headerlink" title="可重入锁与非可重入锁"></a>可重入锁与非可重入锁</h2><blockquote>
+<p><strong>可重入锁</strong>又名递归锁，是指同一个线程在获取外层同步方法锁的时候，再进入该线程的内层同步方法会自动获取锁（前提锁对象得是同一个对象或者class），不会因为之前已经获取过还没释放而阻塞。<strong>非可重入锁</strong>与可重入锁是对立的关系，即一个线程在获取到外层同步方法锁后，再进入该方法的内层同步方法无法获取到锁，即使锁是同一个对象。</p>
+</blockquote>
+<p><code>synchronized</code>与<code>ReentrantLock</code>都属于可重入锁。可重入锁可以有效避免死锁的产生。</p>
+<h2 id="AbstractQueuedSynchronizer"><a href="#AbstractQueuedSynchronizer" class="headerlink" title="AbstractQueuedSynchronizer"></a>AbstractQueuedSynchronizer</h2><p><code>ReentrantLock</code>中的几个核心方法的实现都是调用了<code>Sync</code>中的相关方法，而<code>Sync</code>的主要逻辑在父类<code>AbstractQueuedSynchronizer</code>中实现。（待补充）</p>
+<h1 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6967739352784830494#heading-7">这一次，彻底搞懂Java内存模型与volatile关键字（系列）</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/1290951">JDK21要来了，协程可以给Java带来什么</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://shuyuhu328.github.io">Hu Shuyu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://shuyuhu328.github.io/JUC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">https://shuyuhu328.github.io/JUC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a><a class="post-meta__tags" href="/tags/JDK21/">JDK21</a><a class="post-meta__tags" href="/tags/%E6%8B%BE%E9%81%97/">拾遗</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.4b02j7ej5xa0.png" data-sites="twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/Lecture-2-Divide-and-Conquer/" title="Lecture 2: Divide and Conquer"><img class="cover" src="https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.66p91tli38s0.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">Lecture 2: Divide and Conquer</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comment</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hu Shuyu</div><div class="author-info__description">好吗？好的</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">3</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/shuyuHU328" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:hushuyu@smail.nju.edu.cn" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://github.com/shuyuHU328/shuyuhu328.github.io/releases.atom" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #ffcb3d;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn"></i><span>Announcement</span></div><div class="announcement_content">这不是俺偷的，都是俺拾来的🤗</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B-Java-Memory-Model"><span class="toc-number">2.</span> <span class="toc-text">Java内存模型 &#x2F; Java Memory Model</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">3.</span> <span class="toc-text">关键字</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile"><span class="toc-number">3.1.</span> <span class="toc-text">volatile</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E8%AF%81%E5%8F%AF%E8%A7%81%E6%80%A7"><span class="toc-number">3.1.1.</span> <span class="toc-text">保证可见性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E8%AF%81%E6%9C%89%E5%BA%8F%E6%80%A7"><span class="toc-number">3.1.2.</span> <span class="toc-text">保证有序性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized"><span class="toc-number">3.2.</span> <span class="toc-text">synchronized</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E9%A5%B0%E5%AE%9E%E4%BE%8B%E6%96%B9%E6%B3%95"><span class="toc-number">3.2.1.</span> <span class="toc-text">修饰实例方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E9%A5%B0%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95"><span class="toc-number">3.2.2.</span> <span class="toc-text">修饰静态方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E9%A5%B0%E4%BB%A3%E7%A0%81%E5%9D%97"><span class="toc-number">3.2.3.</span> <span class="toc-text">修饰代码块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized%E9%94%81%E4%BC%98%E5%8C%96"><span class="toc-number">3.2.4.</span> <span class="toc-text">synchronized锁优化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ReentrantLock"><span class="toc-number">4.</span> <span class="toc-text">ReentrantLock</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AC%E5%B9%B3%E9%94%81%E4%B8%8E%E9%9D%9E%E5%85%AC%E5%B9%B3%E9%94%81"><span class="toc-number">4.1.</span> <span class="toc-text">公平锁与非公平锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%E4%B8%8E%E9%9D%9E%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81"><span class="toc-number">4.2.</span> <span class="toc-text">可重入锁与非可重入锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AbstractQueuedSynchronizer"><span class="toc-number">4.3.</span> <span class="toc-text">AbstractQueuedSynchronizer</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CAS"><span class="toc-number">5.</span> <span class="toc-text">CAS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/JUC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="JUC学习笔记"><img src="https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.4b02j7ej5xa0.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JUC学习笔记"/></a><div class="content"><a class="title" href="/JUC%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="JUC学习笔记">JUC学习笔记</a><time datetime="2024-01-16T12:27:00.000Z" title="Created 2024-01-16 20:27:00">2024-01-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/Lecture-2-Divide-and-Conquer/" title="Lecture 2: Divide and Conquer"><img src="https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.66p91tli38s0.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Lecture 2: Divide and Conquer"/></a><div class="content"><a class="title" href="/Lecture-2-Divide-and-Conquer/" title="Lecture 2: Divide and Conquer">Lecture 2: Divide and Conquer</a><time datetime="2024-01-16T00:41:38.000Z" title="Created 2024-01-16 08:41:38">2024-01-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/%E6%95%B0%E7%90%86%E9%80%BB%E8%BE%91%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%BD%92%E7%BA%B3%E4%B8%8E%E9%80%92%E5%BD%92/" title="数理逻辑读书笔记：归纳与递归"><img src="https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/cdd20-9-dkDEXWGzI-unsplash.3sjqex9ceew0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数理逻辑读书笔记：归纳与递归"/></a><div class="content"><a class="title" href="/%E6%95%B0%E7%90%86%E9%80%BB%E8%BE%91%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%BD%92%E7%BA%B3%E4%B8%8E%E9%80%92%E5%BD%92/" title="数理逻辑读书笔记：归纳与递归">数理逻辑读书笔记：归纳与递归</a><time datetime="2024-01-15T01:37:49.000Z" title="Created 2024-01-15 09:37:49">2024-01-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/Lecture-1-Introduction/" title="Lecture 1: Introduction"><img src="https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.66p91tli38s0.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Lecture 1: Introduction"/></a><div class="content"><a class="title" href="/Lecture-1-Introduction/" title="Lecture 1: Introduction">Lecture 1: Introduction</a><time datetime="2024-01-15T01:22:05.000Z" title="Created 2024-01-15 09:22:05">2024-01-15</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/casey-horner-RmoWqDCqN2E-unsplash.7jxemw5vyec0.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2024 By Hu Shuyu</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Imaging a place...</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="Scroll To Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const initValine = () => {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'BPUTa0wS5wfHpeONqzrT2leu-gzGzoHsz',
+      appKey: 'eETuMqJ34HeLRLegieftYlUr',
+      avatar: 'monsterid',
+      serverURLs: '',
+      placeholder: '说点什么吧...',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: true
+    }, null))
+  }
+
+  const loadValine = async () => {
+    if (typeof Valine === 'function') initValine()
+    else {
+      await getScript('https://cdn.jsdelivr.net/npm/valine@1.5.1/dist/Valine.min.js')
+      initValine()
+    }
+  }
+
+  if ('Valine' === 'Valine' || !true) {
+    if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
