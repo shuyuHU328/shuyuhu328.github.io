@@ -55,9 +55,9 @@ such that
 $$
 s\left(i_{1}\right)<f\left(i_{1}\right) \leq s\left(i_{2}\right)<f\left(i_{2}\right) \leq \ldots \leq s\left(i_{k}\right)<f\left(i_{k}\right)
 $$
-**Claim 2.** Given list of intervals $L$, greedy algorithm with **earliest finish time** produces $k^*$ intervals, where $k^*$ is optimal.
+**Claim 2.** Given list of intervals $L$, greedy algorithm with **earliest finish time** produces $k^\ast$ intervals, where $k^\ast$ is optimal.
 
-证明可使用数学归纳法，从$k^*=1$的base case归纳，可以得到$k^*$一直是最优的序列，详细过程略。
+证明可使用数学归纳法，从$k^\ast=1$的base case归纳，可以得到$k^\ast$一直是最优的序列，详细过程略。
 
 # Weighted Interval Scheduling
 
