@@ -9,6 +9,7 @@ tags:
 categories:
 - 'Java基础知识'
 toc: true
+cover: https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.4b02j7ej5xa0.png
 ---
 
 # 简介
@@ -21,7 +22,7 @@ toc: true
 
 每条线程都有自己的工作空间，而共享变量存储在共享内存中。线程在运行时会首先将共享内存中的数据读取到自己的工作内存，即在线程的工作内存中复制了一个共享变量的副本，然后对其进行计算，计算完成后线程会将自己工作内存中的这个共享变量副本同步回主内存。线程、工作内存、与主内存的关系如下图所示：
 
-![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/366a7954b2da4a15aa21a4ee5ed6bf40~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
+![](https://cdn.jsdelivr.net/gh/shuyuHU328/picx-images-hosting@master/image.4z98ywzthdc0.png)
 
 # 关键字
 
