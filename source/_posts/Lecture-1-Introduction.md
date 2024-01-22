@@ -81,3 +81,22 @@ $$
 $$
 此时，时间复杂度为$O(n^2)$，这是由于解决每个子问题的时间复杂度为$O(n)$.
 
+## The nlogn Dynamic Programming Solution
+
+1. 将所有requests按结束时间顺序排列
+
+$$
+f(1) \le f(2) \le ...\le f(n)
+$$
+
+2. 定义$p(j)$为具有最大下标且不与$j$冲突的request
+2. 定义数组$M[0...n]$为最优解的值组成的数组，$M[k]$为考虑request从1到k所得到的最大权重值
+
+于是我们可以得到更优的算法：
+
+```pseudocode
+M[0] = 0
+for j = 1 to n
+	M[j] = max(w(j)+M[p(j)], M[j-1])
+```
+
